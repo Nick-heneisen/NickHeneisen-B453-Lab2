@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      OGA_16x18 zombie charas complete_0: 3893858393743799993
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
