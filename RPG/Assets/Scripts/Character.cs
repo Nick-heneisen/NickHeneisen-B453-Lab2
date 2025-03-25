@@ -1,99 +1,91 @@
+﻿using System;
 using UnityEngine;
 
+// Allows this class to be serialized.
+[Serializable]
 public class Character
 {
-    Enums.AbilityScoreNames AbilityScoreNames;
-    Enums.CharacterClass CharacterClass;
-    Enums.CharacterType CharacterType;
+    // If you haven't seen this #region thing before, it simply allows us to collapse the code grouped into regions, so it's easier to see in the IDE.
+    #region Variables and Enums
+    // The name of this character.
+    [SerializeField] private string _characterName;
+    // The type of this character.
+    [SerializeField] private Enum_CharacterType _characterType;
+    // The class of this character.
+    [SerializeField] private Enum_CharacterClass _characterClass;
+    // A reference for the gameobject this character is attached to.
+    [SerializeField] private GameObject _classPrefab;
 
-    public struct AbilityScores
+    // The ability scores for this character.
+    [SerializeField] private AbilityScore _abilityScore;     //not serializable
+
+    //This is h how you access enums from a class
+    //Note: The enum must be public inorder to access it from another class
+
+    //private PublicEnum.Enum1 enum1;
+    //private PublicEnum.Enum2 enum2;
+    //private PublicEnum.Enum3 enum3;
+
+    //enum1 = PublicEnum.Enum1.Value1;
+    //enum2 = PublicEnum.Enum2.Value2;
+    //enum3 = PublicEnum.Enum3.Value3;
+    // And the #endregion is what defines the end of a collapsable region.
+    #endregion
+
+    #region Properties
+    //Shorthand properties
+    // Public getter and setter methods for all of our variables and enums declared above.
+    public string CharacterName { get => _characterName; set => _characterName = value; }
+    public Enum_CharacterType CharacterType { get => _characterType; set => _characterType = value; }
+    public Enum_CharacterClass CharacterClass { get => _characterClass; set => _characterClass = value; }
+    public AbilityScore AbilityScore { get => _abilityScore; set => _abilityScore = value; }
+    public GameObject ClassPrefab { get => _classPrefab; set => _classPrefab = value; }
+
+    //The properties above but not shorthanded
+    //public string ExpandedCharacterName
+    //{
+    //    get
+    //    {
+    //        return _characterName;
+    //    }
+    //    set
+    //    {
+    //        _characterName = value;
+    //    }
+    //}
+    #endregion
+
+    #region Constructors
+    //Using c# global variables underscore prefix convention
+    // Public constructor for a new Character.
+    public Character(string characterName, Enum_CharacterType characterType,
+        Enum_CharacterClass characterClass, AbilityScore abilityScore, GameObject classPrefab)
     {
-        public int Strength;
-        public int Dexterity;
-        public int Constitution;
-        public int Intelligence;
-        public int Wisdom;
-        public int Charisma;
-
+        _characterName  = characterName;
+        _characterType  = characterType;
+        _characterClass = characterClass;
+        _abilityScore   = abilityScore;
+        _classPrefab    = classPrefab;
     }
 
-    public AbilityScores score;
-    public GameObject prefab;
-    public string characterName;
+    //Using this convention
+    //public Character(string characterName, Enum_CharacterType characterType,
+    //    Enum_CharacterClass characterClass, AbilityScore abilityScore, GameObject classPrefab)
+    //{
+    //    this.characterName  = characterName;
+    //    this.characterType  = characterType;
+    //    this.characterClass = character
+    //    this.abilityScore   = abilityScore;
+    //    this.classPrefab    = classPrefab;
+    //}
+    #endregion
 
-    public Character(int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, string name)
+    public override string ToString()
     {
-        score.Strength = strength;
-        score.Dexterity = dexterity;
-        score.Constitution = constitution;
-        score.Intelligence = intelligence;
-        score.Wisdom = wisdom;
-        score.Charisma = charisma;
-        characterName = name;
-
-    }    
-
-    public int GetAbilityScoreBonus(Enums.AbilityScoreNames abilityName)
-    {
-        int mod = 0;
-
-        if (abilityName == Enums.AbilityScoreNames.Strength)
-        {
-            if (score.Strength <= 2) { mod = -1; };
-            if (score.Strength == 3 || score.Strength == 4) { mod = 0; };
-            if (score.Strength == 5 || score.Strength == 6) { mod = 1; };
-            if (score.Strength == 7 || score.Strength == 8) { mod = 2; };
-            if (score.Strength >= 9) { mod = 3; };
-        }
-
-        if (abilityName == Enums.AbilityScoreNames.Dexterity)
-        {
-            if (score.Dexterity <= 2) { mod = -1; };
-            if (score.Dexterity == 3 || score.Dexterity == 4) { mod = 0; };
-            if (score.Dexterity == 5 || score.Dexterity == 6) { mod = 1; };
-            if (score.Dexterity == 7 || score.Dexterity == 8) { mod = 2; };
-            if (score.Dexterity >= 9) { mod = 3; };
-        }
-
-        if (abilityName == Enums.AbilityScoreNames.Constitution)
-        {
-            if (score.Constitution <= 2) { mod = -1; };
-            if (score.Constitution == 3 || score.Constitution == 4) { mod = 0; };
-            if (score.Constitution == 5 || score.Constitution == 6) { mod = 1; };
-            if (score.Constitution == 7 || score.Constitution == 8) { mod = 2; };
-            if (score.Constitution >= 9) { mod = 3; };
-        }
-
-        if (abilityName == Enums.AbilityScoreNames.Intelligence)
-        {
-            if (score.Intelligence <= 2) { mod = -1; };
-            if (score.Intelligence == 3 || score.Intelligence == 4) { mod = 0; };
-            if (score.Intelligence == 5 || score.Intelligence == 6) { mod = 1; };
-            if (score.Intelligence == 7 || score.Intelligence == 8) { mod = 2; };
-            if (score.Intelligence >= 9) { mod = 3; };
-        }
-
-        if (abilityName == Enums.AbilityScoreNames.Strength)
-        {
-            if (score.Wisdom <= 2) { mod = -1; };
-            if (score.Wisdom == 3 || score.Wisdom == 4) { mod = 0; };
-            if (score.Wisdom == 5 || score.Wisdom == 6) { mod = 1; };
-            if (score.Wisdom == 7 || score.Wisdom == 8) { mod = 2; };
-            if (score.Wisdom >= 9) { mod = 3; };
-        }
-
-        if (abilityName == Enums.AbilityScoreNames.Strength)
-        {
-            if (score.Charisma <= 2) { mod = -1; };
-            if (score.Charisma == 3 || score.Charisma == 4) { mod = 0; };
-            if (score.Charisma == 5 || score.Charisma == 6) { mod = 1; };
-            if (score.Charisma == 7 || score.Charisma == 8) { mod = 2; };
-            if (score.Charisma >= 9) { mod = 3; };
-        }
-
-
-        return mod;
-
+        return $"Character Name: {_characterName}," +
+            $" Character Type: {_characterType}," +
+            $" Character Class: {_characterClass}," +
+            $" Ability Score: {_abilityScore}," +
+            $" Class Prefab: {_classPrefab}";
     }
-
 }
